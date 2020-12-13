@@ -1,0 +1,10 @@
+<layout id="Player">
+    <label id="title" x="center" y="10%" text="@Strings.title" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SMALL" />
+    <label id="artist" x="center" y="25%" text="@Strings.artist" color="#888888" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_SMALL" />
+    <bitmap id="vol_up" x="35%" y="70%" filename="../drawables/vol_up.png" />
+    <bitmap id="vol_down" x="60%" y="70%" filename="../drawables/vol_down.png" />
+    <bitmap id="stop" x="left" y="center" filename="../drawables/vol_up.png" />
+    <bitmap id="play" x="center" y="center" filename="../drawables/play.png" />
+    <bitmap id="pause" x="center" y="center" filename="../drawables/play.png" />
+    <bitmap id="next" x="right" y="center" filename="../drawables/play.png" />
+</layout>

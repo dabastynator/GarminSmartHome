@@ -1,0 +1,17 @@
+<drawables>
+    <bitmap id="LauncherIcon" filename="SmartHomeSmall.png" />
+    <bitmap id="SmartHome" filename="SmartHome.png" />
+    <bitmap id="play" filename="play.png" />
+    <bitmap id="pause" filename="pause.png" />
+    <bitmap id="stop" filename="stop.png" />
+    <bitmap id="vol_down" filename="vol_down.png" />
+    <bitmap id="vol_up" filename="vol_up.png" />
+    <bitmap id="music" filename="music.png" />
+    <bitmap id="script" filename="script.png" />
+    <drawable-list id="split_horizontal">
+    	<shape type="rectangle" x="0" y="50%" width="100%" height="1" color="Graphics.COLOR_WHITE"/>
+    </drawable-list>
+    <drawable-list id="split_vertical">
+    	<shape type="rectangle" x="center" y="50%" width="1" height="50%" color="Graphics.COLOR_WHITE"/>
+    </drawable-list>
+</drawables>

@@ -1,0 +1,9 @@
+<layout id="MainLayout">
+    <bitmap id="TheIcon" x="center" y="5%" filename="../drawables/SmartHome.png" />
+    <label x="center" y="32%" text="@Strings.AppName" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" />
+    <drawable id="split_horizontal"/>
+    <drawable id="split_vertical"/>
+    
+    <bitmap id="script" x="13%" y="55%" filename="../drawables/script.png" />
+    <bitmap id="music" x="62%" y="55%" filename="../drawables/music.png" />
+</layout>
