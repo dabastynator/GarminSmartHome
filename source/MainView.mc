@@ -2,8 +2,8 @@ using Toybox.WatchUi;
 
 class MainView extends WatchUi.View {
 
-	public var mWidth;
-	public var mHeight;
+	public static var Width;
+	public static var Height;
 
     function initialize() {
         View.initialize();
@@ -12,8 +12,8 @@ class MainView extends WatchUi.View {
     // Load your resources here
     function onLayout(dc) {
         setLayout(Rez.Layouts.MainLayout(dc));
-        mWidth = dc.getWidth();
-        mHeight = dc.getWidth();
+        Width = dc.getWidth();
+        Height = dc.getWidth();
     }
 
     // Called when this View is brought to the foreground. Restore

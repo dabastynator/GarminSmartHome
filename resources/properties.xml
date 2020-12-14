@@ -1,0 +1,24 @@
+<resources>
+
+    <properties>
+        <property id="version" type="string">0.1-beta</property>
+        <property id="endpoint" type="string">http://localhost:5061</property>
+        <property id="token" type="string">w4kzd4HQ</property>
+        <property id="musicunit" type="string">media.public</property>
+    </properties>
+
+    <settings>
+        <setting propertyKey="@Properties.version" title="@Strings.version">
+            <settingConfig type="alphaNumeric" readonly="true" />
+        </setting>
+        <setting propertyKey="@Properties.endpoint" title="@Strings.endpoint">
+            <settingConfig type="url"/>
+        </setting>
+        <setting propertyKey="@Properties.token" title="@Strings.token">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+        <setting propertyKey="@Properties.musicunit" title="@Strings.musicunit">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+    </settings>
+</resources>

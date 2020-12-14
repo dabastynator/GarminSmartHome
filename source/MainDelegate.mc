@@ -2,11 +2,8 @@ using Toybox.WatchUi;
 
 class MainDelegate extends WatchUi.BehaviorDelegate {
 
-	public var mView;
-
     function initialize(view) {
         BehaviorDelegate.initialize();
-        mView = view;
     }
 
     function onMenu() {
@@ -28,9 +25,9 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
     
     function onTap (event) {
     	var coords = event.getCoordinates();
-	    if (coords[1] > mView.mHeight / 2)
+	    if (coords[1] > MainView.Height / 2)
 	    {
-	    	if (coords[0] < mView.mWidth / 2)
+	    	if (coords[0] < MainView.Width / 2)
 	    	{
 	    		WatchUi.pushView(new Rez.Menus.MainMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
 	    	} else {

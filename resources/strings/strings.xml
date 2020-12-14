@@ -1,9 +1,14 @@
 <strings>
     <string id="AppName">SmartHome</string>
+    <string id="version">SmartHome Version</string>
 
     <string id="artist">Artist</string>
     <string id="title">Title</string>
 
     <string id="menu_label_1">Home Sweet Home</string>
     <string id="menu_label_2">Leaving</string>
+    
+    <string id="endpoint">End Point</string>
+    <string id="token">Token</string>
+    <string id="musicunit">Music Unit</string>
 </strings>
