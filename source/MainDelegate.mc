@@ -2,16 +2,19 @@ using Toybox.WatchUi;
 
 class MainDelegate extends WatchUi.BehaviorDelegate {
 
-    function initialize(view) {
+    function initialize(view)
+    {
         BehaviorDelegate.initialize();
     }
 
-    function onMenu() {
+    function onMenu()
+    {
         WatchUi.pushView(new Rez.Menus.MainMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
         return true;
     }
     
-    function onKey(event) {
+    function onKey(event)
+    {
     	System.println("on key: " + event);
     	if (event.getKey() == WatchUi.KEY_ENTER)
     	{
@@ -23,7 +26,8 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
     	}
     }
     
-    function onTap (event) {
+    function onTap (event)
+    {
     	var coords = event.getCoordinates();
 	    if (coords[1] > MainView.Height / 2)
 	    {
@@ -31,7 +35,8 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
 	    	{
 	    		WatchUi.pushView(new Rez.Menus.MainMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
 	    	} else {
-	    		WatchUi.pushView(new MusicView(), new MusicDelegate(), WatchUi.SLIDE_UP);
+	    		var view = new MusicView();
+	    		WatchUi.pushView(view, new MusicDelegate(view), WatchUi.SLIDE_UP);
 	    	}
 	    }
     }

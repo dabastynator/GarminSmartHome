@@ -6,7 +6,8 @@ class WebCaller {
 	var mToken = "";
 	var mDefaultParam = "";
 	
-	function initialize() {
+	function initialize()
+	{
         mUrl = Properties.getValue("endpoint");
 		mToken = Properties.getValue("token");
 		mDefaultParam = "?token=" + mToken;
@@ -15,24 +16,29 @@ class WebCaller {
 		System.println(" Token: " + mToken);
     }
     
-    function setDefaultParameter(parameter) {
+    function setDefaultParameter(parameter)
+    {
     	mDefaultParam = "?token=" + mToken + "&" + parameter;
     }
     
-	function onReceive(responseCode, data) {
-		System.println("onReceive");
-		System.println(" " + responseCode + " " + data);
+	function onReceive(responseCode, data)
+	{
+		System.println("WebCaller::onReceive: " + responseCode);
 	}
     
-    function call(path, parameter) {
+    function call(path, parameter, callback)
+    {
     	var url = mUrl + path + mDefaultParam + "&" + parameter;
 		var params = null;
 		var options = {
 			:method => Communications.HTTP_REQUEST_METHOD_GET,
 			:responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON
 		};
-		System.println("Call: " + url);
-		Communications.makeWebRequest(url, params, options, method(:onReceive));
+		if (callback == null) {
+			callback = method(:onReceive);
+		}
+		System.println("Call: " + url);		
+		Communications.makeWebRequest(url, params, options, callback);
     }
 	
 }

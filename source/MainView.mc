@@ -5,12 +5,14 @@ class MainView extends WatchUi.View {
 	public static var Width;
 	public static var Height;
 
-    function initialize() {
+    function initialize()
+    {
         View.initialize();
     }
 
     // Load your resources here
-    function onLayout(dc) {
+    function onLayout(dc)
+    {
         setLayout(Rez.Layouts.MainLayout(dc));
         Width = dc.getWidth();
         Height = dc.getWidth();
@@ -19,11 +21,13 @@ class MainView extends WatchUi.View {
     // Called when this View is brought to the foreground. Restore
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
-    function onShow() {
+    function onShow()
+    {
     }
 
     // Update the view
-    function onUpdate(dc) {
+    function onUpdate(dc)
+    {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
     }
@@ -31,7 +35,8 @@ class MainView extends WatchUi.View {
     // Called when this View is removed from the screen. Save the
     // state of this View here. This includes freeing resources from
     // memory.
-    function onHide() {
+    function onHide()
+    {
     }
 
 }

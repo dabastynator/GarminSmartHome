@@ -4,36 +4,77 @@ using Toybox.Application.Properties;
 class MusicDelegate extends WatchUi.BehaviorDelegate {
 
 	var mCaller = null;
+	var mMusicView = null;
+	var mUpdateCallback = null;
 
-    function initialize() {
+    function initialize(musicView)
+    {
         BehaviorDelegate.initialize();
         mCaller = new WebCaller();
         var music = Properties.getValue("musicunit");
         mCaller.setDefaultParameter("player=mplayer&id=" + music);
+        mMusicView = musicView;
+        mUpdateCallback = mMusicView.method(:onUpdateMusic);
+        updatePlaying();        
     }
     
-    function onTap (event) {
+    function updatePlaying()
+    {
+    	mCaller.call("/mediaserver/list", "", mUpdateCallback);
+    }
+    
+    function changeVolume(code, data, delta)
+    {
+    	if ((data instanceof Array) and (data.size() > 0))
+    	{
+    		var media = data[0];
+    		if (media instanceof Dictionary)
+    		{
+    			var current = media["current_playing"];
+    			if (current instanceof Dictionary)
+    			{
+	    			var volume = current["volume"] + delta;
+	    			mCaller.call("/mediaserver/volume", "volume=" + volume, null);
+	    		}
+    		}
+    	}
+    }
+    
+    function volDown(code, data)
+    {
+    	changeVolume(code, data, -5);
+    }
+    
+    function volUp(code, data)
+    {
+    	changeVolume(code, data, 5);
+    }
+    
+    function onTap (event)
+    {
 	    var coords = event.getCoordinates();
 	    if (coords[1] < MainView.Height / 3)
 	    {
-	    	if (coords[0] < MainView.Width / 2)
-	    	{
-	    		//mCaller.call("/mediaserver/volup", "");
-	    	} else
-	    	{
-	    		//mCaller.call("/mediaserver/next", "");
-	    	}	    	
+	    	updatePlaying();	    	
 	    } else if (coords[1] < 2 * MainView.Height / 3)
 	    {
 	    	if (coords[0] < MainView.Width / 3)
 	    	{
-	    		mCaller.call("/mediaserver/stop", "");
+	    		mCaller.call("/mediaserver/stop", "", mUpdateCallback);
 	    	} else if (coords[0] < 2 * MainView.Width / 3)
 	    	{
-	    		mCaller.call("/mediaserver/play_pause", "");
+	    		mCaller.call("/mediaserver/play_pause", "", mUpdateCallback);
 	    	} else
 	    	{
-	    		mCaller.call("/mediaserver/next", "");
+	    		mCaller.call("/mediaserver/next", "", mUpdateCallback);
+	    	}
+	    } else {
+	    	if (coords[0] < MainView.Width / 2)
+	    	{
+	    		mCaller.call("/mediaserver/list", "", method(:volDown));
+	    	} else
+	    	{
+	    		mCaller.call("/mediaserver/list", "", method(:volUp));
 	    	}
 	    }
     }
