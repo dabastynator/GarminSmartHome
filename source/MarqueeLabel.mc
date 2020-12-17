@@ -19,12 +19,17 @@ class MarqueeLabel {
     function setLabel(label)
     {
     	mLabel = label;
+    	mLabel.setText(mText);
     }
     
     function updateText(text)
     {
+    	mStatus = 0;
     	mText = text;
-    	mLabel.setText(text);
+    	if (mLabel != null)
+    	{
+    		mLabel.setText(text);
+    	}
     }
     
     function calculateWidth(dc)
