@@ -5,8 +5,12 @@
     <string id="artist">Artist</string>
     <string id="title">Title</string>
 
-    <string id="menu_label_1">Home Sweet Home</string>
-    <string id="menu_label_2">Leaving</string>
+	<string id="TriggerMenuTitle">TriggerMenu</string>
+    <string id="TriggerHome">Home Sweet Home</string>
+    <string id="TriggerLeaving">Leaving</string>
+    <string id="TriggerBedroom">Bedroom</string>
+    <string id="TriggerGoToBed">Go to bed</string>
+    <string id="TriggerJazz">Jazz</string>
     
     <string id="endpoint">End Point</string>
     <string id="token">Token</string>

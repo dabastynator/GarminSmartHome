@@ -21,13 +21,26 @@ class MenuDelegate extends WatchUi.MenuInputDelegate {
     function onMenuItem(item)
     {
     	var trigger = "";
-    	if (item == :item_1)
-    	{
-            trigger = "mobile.come_home";
-        } else if (item == :item_2)
-        {
-            trigger = "mobile.leaving";
-        }
+    	if (item == :come_home)
+		{
+			trigger = "mobile.come_home";
+		}
+		if (item == :leaving)
+		{
+			trigger = "mobile.leaving";
+		}
+		if (item == :bedroom)
+		{
+			trigger = "mobile.bedroom";
+		}
+		if (item == :go_to_bed)
+		{
+			trigger = "mobile.go_to_bed";
+		}
+		if (item == :mobile_jazz)
+		{
+			trigger = "trigger.mobile_jazz";
+		}
 		mCaller.call("/trigger/dotrigger", "trigger=" + trigger, null);
     }
 

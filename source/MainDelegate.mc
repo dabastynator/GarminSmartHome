@@ -9,7 +9,7 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
 
     function onMenu()
     {
-        WatchUi.pushView(new Rez.Menus.MainMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
+        WatchUi.pushView(new Rez.Menus.TriggerMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
         return true;
     }
     
@@ -18,7 +18,7 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
     	System.println("on key: " + event);
     	if (event.getKey() == WatchUi.KEY_ENTER)
     	{
-    		WatchUi.pushView(new Rez.Menus.MainMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
+    		WatchUi.pushView(new Rez.Menus.TriggerMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
     	}
     	if (event.getKey() == WatchUi.KEY_ESC)
     	{
@@ -33,7 +33,7 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
 	    {
 	    	if (coords[0] < MainView.Width / 2)
 	    	{
-	    		WatchUi.pushView(new Rez.Menus.MainMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
+	    		WatchUi.pushView(new Rez.Menus.TriggerMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
 	    	} else {
 	    		var view = new MusicView();
 	    		WatchUi.pushView(view, new MusicDelegate(view), WatchUi.SLIDE_UP);

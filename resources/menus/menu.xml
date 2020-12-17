@@ -1,4 +1,7 @@
-<menu id="MainMenu">
-    <menu-item id="item_1" label="@Strings.menu_label_1" />
-    <menu-item id="item_2" label="@Strings.menu_label_2" />
+<menu id="TriggerMenu" title="@Strings.TriggerMenuTitle">
+    <menu-item id="come_home" label="@Strings.TriggerHome" />
+    <menu-item id="leaving" label="@Strings.TriggerLeaving" />
+    <menu-item id="bedroom" label="@Strings.TriggerBedroom" />
+    <menu-item id="go_to_bed" label="@Strings.TriggerGoToBed" />
+    <menu-item id="mobile_jazz" label="@Strings.TriggerJazz" />
 </menu>
