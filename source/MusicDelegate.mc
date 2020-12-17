@@ -6,6 +6,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 	var mCaller = null;
 	var mMusicView = null;
 	var mUpdateCallback = null;
+	var mVolumeDelta = 5;
 
     function initialize(musicView)
     {
@@ -15,7 +16,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
         mCaller.setDefaultParameter("player=mplayer&id=" + music);
         mMusicView = musicView;
         mUpdateCallback = mMusicView.method(:onUpdateMusic);
-        updatePlaying();        
+        updatePlaying();    
     }
     
     function updatePlaying()
@@ -42,12 +43,12 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
     
     function volDown(code, data)
     {
-    	changeVolume(code, data, -5);
+    	changeVolume(code, data, -mVolumeDelta);
     }
     
     function volUp(code, data)
     {
-    	changeVolume(code, data, 5);
+    	changeVolume(code, data, mVolumeDelta);
     }
     
     function onTap (event)

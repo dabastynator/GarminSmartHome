@@ -5,12 +5,14 @@ class MusicView extends WatchUi.View {
 	var mMarqueeArtist;
 	var mMarqueeTitle;
 	var mPlay;
-    var mFireAnimation = false;
+    var mFireAnimation = true;
     
     function initialize()
     {
-    	mMarqueeTitle = new MarqueeLabel(70, MainView.Width-70);
-    	mMarqueeArtist = new MarqueeLabel(20, MainView.Width-20);
+    	mMarqueeTitle = new MarqueeLabel(60, MainView.Width-60);    	
+    	mMarqueeArtist = new MarqueeLabel(15, MainView.Width-15);
+    	mMarqueeTitle.updateText("<loading>");
+    	mMarqueeArtist.updateText("<loading>");
         View.initialize();        
     }
 
