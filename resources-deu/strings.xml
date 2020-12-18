@@ -1,0 +1,18 @@
+<strings>
+    <string id="AppName">SmartHome</string>
+    <string id="version">SmartHome Version</string>
+
+    <string id="artist">Künstler</string>
+    <string id="title">Titel</string>
+
+	<string id="TriggerMenuTitle">Triggers</string>
+    <string id="TriggerHome">Home Sweet Home</string>
+    <string id="TriggerLeaving">Alles aus</string>
+    <string id="TriggerBedroom">Schlafzimmer</string>
+    <string id="TriggerGoToBed">Gute Nacht</string>
+    <string id="TriggerJazz">Jazz</string>
+    
+    <string id="endpoint">End Point</string>
+    <string id="token">Token</string>
+    <string id="musicunit">Musik Unit</string>
+</strings>
