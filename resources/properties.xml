@@ -1,9 +1,9 @@
 <resources>
 
     <properties>
-        <property id="version" type="string">0.1-beta</property>
+        <property id="version" type="string">0.9-beta</property>
         <property id="endpoint" type="string">http://localhost:5061</property>
-        <property id="token" type="string">w4kzd4HQ</property>
+        <property id="token" type="string">secure</property>
         <property id="musicunit" type="string">media.public</property>
     </properties>
 
