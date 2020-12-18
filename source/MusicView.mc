@@ -9,8 +9,10 @@ class MusicView extends WatchUi.View {
     
     function initialize()
     {
-    	mMarqueeTitle = new MarqueeLabel(60, MainView.Width-60);    	
-    	mMarqueeArtist = new MarqueeLabel(15, MainView.Width-15);
+    	var marginTitle = 0.154 * MainView.Width;
+    	var marginArtist = 0.038 * MainView.Width;
+    	mMarqueeTitle = new MarqueeLabel(marginTitle, MainView.Width - marginTitle);
+    	mMarqueeArtist = new MarqueeLabel(marginArtist, MainView.Width - marginArtist);
     	mMarqueeTitle.updateText("<loading>");
     	mMarqueeArtist.updateText("<loading>");
         View.initialize();        
@@ -36,7 +38,7 @@ class MusicView extends WatchUi.View {
     // Update the view
     function onUpdate(dc)
     {
-        // Call the parent onUpdate function to redraw the layout
+    	// Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
         mMarqueeArtist.calculateWidth(dc);
         mMarqueeTitle.calculateWidth(dc);

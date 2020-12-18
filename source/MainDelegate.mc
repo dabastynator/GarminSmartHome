@@ -18,11 +18,8 @@ class MainDelegate extends WatchUi.BehaviorDelegate {
     	System.println("on key: " + event);
     	if (event.getKey() == WatchUi.KEY_ENTER)
     	{
-    		WatchUi.pushView(new Rez.Menus.TriggerMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
-    	}
-    	if (event.getKey() == WatchUi.KEY_ESC)
-    	{
-    		WatchUi.pushView(new MusicView(), new MusicDelegate(), WatchUi.SLIDE_UP);
+    		var view = new MusicView();
+	    	WatchUi.pushView(view, new MusicDelegate(view), WatchUi.SLIDE_UP);
     	}
     }
     

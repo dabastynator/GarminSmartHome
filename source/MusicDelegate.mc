@@ -6,7 +6,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 	var mCaller = null;
 	var mMusicView = null;
 	var mUpdateCallback = null;
-	var mVolumeDelta = 5;
+	var mVolumeDelta = 10;
 
     function initialize(musicView)
     {
