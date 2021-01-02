@@ -6,22 +6,22 @@ class MenuDelegate extends WatchUi.MenuInputDelegate {
 
 	var mCaller = null;
 
-    function initialize()
-    {
-        MenuInputDelegate.initialize();
-        mCaller = new WebCaller();
-    }
-    
+	function initialize()
+	{
+		MenuInputDelegate.initialize();
+		mCaller = new WebCaller();
+	}
+	
 	function onReceive(responseCode, data)
 	{
 		System.println("onReceive");
 		System.println(" " + responseCode + " " + data);
 	}
 
-    function onMenuItem(item)
-    {
-    	var trigger = "";
-    	if (item == :come_home)
+	function onMenuItem(item)
+	{
+		var trigger = "";
+		if (item == :come_home)
 		{
 			trigger = "mobile.come_home";
 		}
@@ -42,6 +42,6 @@ class MenuDelegate extends WatchUi.MenuInputDelegate {
 			trigger = "trigger.mobile_jazz";
 		}
 		mCaller.call("/trigger/dotrigger", "trigger=" + trigger, null);
-    }
+	}
 
 }

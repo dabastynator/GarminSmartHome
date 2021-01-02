@@ -9,10 +9,10 @@ class MusicView extends WatchUi.View {
     
     function initialize()
     {
-    	var marginTitle = 0.154 * MainView.Width;
-    	var marginArtist = 0.038 * MainView.Width;
-    	mMarqueeTitle = new MarqueeLabel(marginTitle, MainView.Width - marginTitle);
-    	mMarqueeArtist = new MarqueeLabel(marginArtist, MainView.Width - marginArtist);
+    	var marginTitle = 0.154 * CircleButtonView.Width;
+    	var marginArtist = 0.038 * CircleButtonView.Width;
+    	mMarqueeTitle = new MarqueeLabel(marginTitle, CircleButtonView.Width - marginTitle);
+    	mMarqueeArtist = new MarqueeLabel(marginArtist, CircleButtonView.Width - marginArtist);
     	mMarqueeTitle.updateText("<loading>");
     	mMarqueeArtist.updateText("<loading>");
         View.initialize();        
