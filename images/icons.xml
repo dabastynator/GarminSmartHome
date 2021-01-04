@@ -1,0 +1,17 @@
+<MaskRoot directory="../" buffering="false">
+
+	<!-- Resolutions -->
+	<Resolution pixel="58" postfix="" directory="resources-round-240x240/drawables" />
+	<Resolution pixel="64" postfix="" directory="resources-round-260x260/drawables" />
+	<Resolution pixel="69" postfix="" directory="resources-round-280x280/drawables" />
+	<Resolution pixel="100" postfix="" directory="resources-round-390x390/drawables" />
+
+	<!-- General icons -->
+	<Icon input="images/img/SmartHome" output="SmartHome" />
+	<Icon input="images/img/code" output="script" />
+	<Icon input="images/img/headphone" output="headphone" />
+	<Icon input="images/img/playlist" output="playlist" />
+	<Icon input="images/img/switches" output="switches" />
+	<Icon input="images/img/user" output="user" />
+
+</MaskRoot>
