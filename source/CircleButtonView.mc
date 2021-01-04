@@ -10,12 +10,12 @@ class CircleButtonView extends WatchUi.View {
 	private var mImages = [];
 	private var mIndex = 0;
 	public var mArcAngle = 0;
-	private var mMargin = 60;
+	private var mMargin = 0;
 	private var mCenterImage = null;
+	public var mMarginFactor = -1;
 
-	function initialize(margin)
+	function initialize()
 	{
-		mMargin = margin;
 		View.initialize();
 	}
 	
@@ -39,14 +39,16 @@ class CircleButtonView extends WatchUi.View {
 
 	function onShow()
 	{
+		WatchUi.animate(self, :mMarginFactor, WatchUi.ANIM_TYPE_EASE_OUT, -1, 1, 0.4, null);
 	}
 
 	function onUpdate(dc)
 	{
 		Width = dc.getWidth();
-		Height = dc.getWidth();
+		Height = dc.getHeight();
 		var centerX = dc.getWidth() / 2;
 		var centerY = dc.getHeight() / 2;
+		mMargin = 0.15 * Width;
 	 
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
 		dc.clear();
@@ -62,13 +64,13 @@ class CircleButtonView extends WatchUi.View {
 			var image = mImages[i];
 			var sin = Math.sin(2*i*Math.PI / mImages.size());
 			var cos = -Math.cos(2*i*Math.PI / mImages.size());
-			var offX = sin * (centerX - mMargin);
-			var offY = cos * (centerY - mMargin);
+			var offX = sin * (centerX - mMargin * mMarginFactor);
+			var offY = cos * (centerY - mMargin * mMarginFactor);
 			dc.drawBitmap( centerX + offX - image.getWidth() / 2, centerY + offY - image.getHeight() / 2, image );
 			
 			sin = Math.sin(2*(i+0.5)*Math.PI / mImages.size()) * centerX;
 			cos = -Math.cos(2*(i+0.5)*Math.PI / mImages.size()) * centerY;
-			var splitLine = 0.6;
+			var splitLine = 0.5 + 0.5 * (1 - mMarginFactor) / 2;
 			dc.drawLine(centerX + sin * splitLine, centerY + cos * splitLine, centerX + sin, centerY + cos);
 		}
 				
