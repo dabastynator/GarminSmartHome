@@ -6,9 +6,9 @@
     <bitmap id="stop" filename="stop.png" />
     <bitmap id="vol_down" filename="vol_down.png" />
     <bitmap id="vol_up" filename="vol_up.png" />
-    <bitmap id="music" filename="music.png" />
     <bitmap id="headphone" filename="headphone.png" />
     <bitmap id="script" filename="script.png" />
     <bitmap id="switches" filename="switches.png" />
     <bitmap id="playlist" filename="playlist.png" />
+    <bitmap id="user" filename="user.png" />
 </drawables>

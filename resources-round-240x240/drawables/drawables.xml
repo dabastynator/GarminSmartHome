@@ -1,0 +1,8 @@
+<drawables>
+    <bitmap id="SmartHome" filename="SmartHome.png" />
+    <bitmap id="script" filename="script.png" />
+    <bitmap id="headphone" filename="headphone.png" />
+    <bitmap id="playlist" filename="playlist.png" />
+    <bitmap id="switches" filename="switches.png" />
+    <bitmap id="user" filename="user.png" /> 
+</drawables>
