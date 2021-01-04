@@ -1,5 +1,6 @@
 using Toybox.Application;
 using Toybox.WatchUi;
+using Toybox.Graphics;
 
 class SmartHomeApp extends Application.AppBase {
 
@@ -90,21 +91,44 @@ class SmartHomeApp extends Application.AppBase {
 		var music = Properties.getValue("musicunit");
 		caller.call("/mediaserver/playlists", "id=" + music, method(:showPlaylists));
 	}
+	
+	function showUser(code, data)
+	{
+		if (data instanceof Dictionary)
+		{
+			var alert = new Alert({
+				:timeout => 5000,
+				:font => Graphics.FONT_MEDIUM,
+				:text => data["name"],
+				:fgcolor => Graphics.COLOR_WHITE,
+				:bgcolor => Graphics.COLOR_BLACK
+				});
+			alert.pushView(WatchUi.SLIDE_UP);
+		}
+	}
+	
+	function toUser()
+	{
+		var caller = new WebCaller();
+		caller.call("/user/current", "", method(:showUser));
+	}
 
 	// Return the initial view of your application here
 	function getInitialView()
 	{
-		var view = new CircleButtonView(60);
+		var view = new CircleButtonView();
 		view.setCenter(Rez.Drawables.SmartHome);
 		view.addButton(Rez.Drawables.script);
 		view.addButton(Rez.Drawables.headphone);
 		view.addButton(Rez.Drawables.switches);
 		view.addButton(Rez.Drawables.playlist);
+		view.addButton(Rez.Drawables.user);
 		var delegate = new CircleButtonDelegate(view);
 		delegate.addCallback(method(:toScripts));
 		delegate.addCallback(method(:toMusic));
 		delegate.addCallback(method(:toSwitches));
 		delegate.addCallback(method(:toPlaylists));
+		delegate.addCallback(method(:toUser));
 		return [ view, delegate ];
 	}
 
