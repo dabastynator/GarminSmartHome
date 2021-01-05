@@ -12,7 +12,7 @@ class CircleButtonView extends WatchUi.View {
 	public var mArcAngle = 0;
 	private var mMargin = 0;
 	private var mCenterImage = null;
-	public var mMarginFactor = -1;
+	public var mAppearAnimation = 0;
 
 	function initialize()
 	{
@@ -22,6 +22,32 @@ class CircleButtonView extends WatchUi.View {
 	function calcArcAngle(index)
 	{
 		return -(index+0.5) * 360 / mImages.size() + 90;
+	}
+	
+	function smoothstep(x)
+	{
+		if (x < 0)
+		{
+			return 0;
+		} else if (x < 1)
+		{
+			return (3 - 2 * x) * x * x;
+		} else {
+			return 1;
+		}
+	}
+	
+	function smootherstep(x)
+	{
+		if (x < 0)
+		{
+			return 0;
+		} else if (x < 1)
+		{
+			return (6 * x * x - 15 * x + 10) * x * x * x;
+		} else {
+			return 1;
+		}
 	}
 	
 	// Add a resource like Rez.Drawables.id_monkey
@@ -39,7 +65,7 @@ class CircleButtonView extends WatchUi.View {
 
 	function onShow()
 	{
-		WatchUi.animate(self, :mMarginFactor, WatchUi.ANIM_TYPE_EASE_OUT, -1, 1, 0.4, null);
+		WatchUi.animate(self, :mAppearAnimation, WatchUi.ANIM_TYPE_LINEAR, 0, 1, 0.6, null);
 	}
 
 	function onUpdate(dc)
@@ -60,23 +86,33 @@ class CircleButtonView extends WatchUi.View {
 		
 		dc.setColor(0x888888, Graphics.COLOR_BLACK);
 		dc.setPenWidth(1);
+		var animationStep = smootherstep(mAppearAnimation);
+		var rAnimationStep = 1 - animationStep; 
 		for (var i = 0; i < mImages.size(); i++) {
 			var image = mImages[i];
-			var sin = Math.sin(2*i*Math.PI / mImages.size());
-			var cos = -Math.cos(2*i*Math.PI / mImages.size());
-			var offX = sin * (centerX - mMargin * mMarginFactor);
-			var offY = cos * (centerY - mMargin * mMarginFactor);
+			var angle = 2 * i * Math.PI / mImages.size();
+			var sin = Math.sin(angle);
+			var cos = -Math.cos(angle);
+			var marginFactor = 2 * smootherstep(1.5 * (mAppearAnimation * 2 - 1.0 * i / mImages.size())) - 1;
+			var offX = sin * (centerX - mMargin * marginFactor);
+			var offY = cos * (centerY - mMargin * marginFactor);
 			dc.drawBitmap( centerX + offX - image.getWidth() / 2, centerY + offY - image.getHeight() / 2, image );
 			
-			sin = Math.sin(2*(i+0.5)*Math.PI / mImages.size()) * centerX;
-			cos = -Math.cos(2*(i+0.5)*Math.PI / mImages.size()) * centerY;
-			var splitLine = 0.5 + 0.5 * (1 - mMarginFactor) / 2;
+			angle = 2 * (i + 0.5) * Math.PI / mImages.size();
+			sin = Math.sin(angle) * centerX;
+			cos = -Math.cos(angle) * centerY;
+			var splitLine = 0.5 + 0.5 * rAnimationStep;
 			dc.drawLine(centerX + sin * splitLine, centerY + cos * splitLine, centerX + sin, centerY + cos);
 		}
 				
 		dc.setPenWidth(5);
 		var degreeSize = 360 / mImages.size();
-		dc.drawArc(centerX, centerY, centerX - 4, Graphics.ARC_COUNTER_CLOCKWISE, mArcAngle, mArcAngle + degreeSize);
+		var from = mArcAngle + 0.5 * degreeSize * rAnimationStep;
+		var to = mArcAngle + degreeSize * (0.5 + 0.5 * animationStep);  
+		if (from < to)
+		{
+			dc.drawArc(centerX, centerY, centerX - 4, Graphics.ARC_COUNTER_CLOCKWISE, from, to);
+		}		
 	}
 	
 	function getIndex()
