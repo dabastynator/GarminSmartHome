@@ -99,7 +99,7 @@ class SmartHomeApp extends Application.AppBase {
 			var alert = new Alert({
 				:timeout => 5000,
 				:font => Graphics.FONT_MEDIUM,
-				:text => data["name"],
+				:text => data["name"] + "\n" + data["role"],
 				:fgcolor => Graphics.COLOR_WHITE,
 				:bgcolor => Graphics.COLOR_BLACK
 				});
