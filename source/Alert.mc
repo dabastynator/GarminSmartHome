@@ -89,11 +89,18 @@ class Alert extends Ui.View {
 		
 		for(var i = 0; i <= strLen; i++) {
 			var char = str.substring(i, i + 1);
-			if(char.equals(" ") || i == strLen){
-				if(dc.getTextWidthInPixels(str.substring(firstChar, i), font) < width){
+			if(char.equals("\n"))
+			{
+				mLines += 1;
+			}
+			if(char.equals(" ") || i == strLen)
+			{
+				if(dc.getTextWidthInPixels(str.substring(firstChar, i), font) < width)
+				{
 					lastChar = i;
 				}
-				else {
+				else
+				{
 					newStr += str.substring(firstChar, lastChar) + "\n";
 					firstChar = lastChar + 1;
 					mLines += 1;
