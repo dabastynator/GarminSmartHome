@@ -26,13 +26,25 @@ class WebCaller {
 	function onReceive(responseCode, data)
 	{
 		System.println("WebCaller::onReceive: " + responseCode);
+		if (responseCode != 200)
+		{
+			var alert = new Alert({
+				:timeout => 8000,
+				:font => Graphics.FONT_MEDIUM,
+				:text => "Error " + responseCode + "\nEnsure a running server and correct app settings.",
+				:fgcolor => Graphics.COLOR_RED,
+				:bgcolor => Graphics.COLOR_BLACK
+				});
+			alert.pushView(WatchUi.SLIDE_UP);
+			return;
+		}
 		if (data instanceof Dictionary)
 		{
 			var error = data["error"]; 
 			if (error  instanceof Dictionary)
 			{
 				var alert = new Alert({
-					:timeout => 5000,
+					:timeout => 8000,
 					:font => Graphics.FONT_MEDIUM,
 					:text => error["message"],
 					:fgcolor => Graphics.COLOR_RED,
