@@ -8,7 +8,7 @@ This are the basic features of the SmartHome client
 - Basic remote music control
 - Play existing Playlists
 - Triggers 5 predefined actions
-- Set remove switch state
+- Set remote switch state
 
 The server application is open source (https://github.com/dabastynator/SmartHome)
 
