@@ -24,6 +24,22 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		mCaller.call("/mediaserver/list", "", mUpdateCallback);
 	}
 	
+	function showVolume(code, data)
+	{
+		if (data instanceof Dictionary)
+		{
+			var volume = data["volume"];
+			var alert = new Alert({
+				:timeout => 1000,
+				:font => Graphics.FONT_MEDIUM,
+				:text => "Volume " + volume + "%",
+				:fgcolor => Graphics.COLOR_WHITE,
+				:bgcolor => Graphics.COLOR_BLACK
+				});
+			alert.pushView(WatchUi.SLIDE_UP);
+		}
+	}
+
 	function changeVolume(code, data, delta)
 	{
 		if ((data instanceof Array) and (data.size() > 0))
@@ -35,7 +51,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 				if (current instanceof Dictionary)
 				{
 					var volume = current["volume"] + delta;
-					mCaller.call("/mediaserver/volume", "volume=" + volume, null);
+					mCaller.call("/mediaserver/volume", "volume=" + volume, method(:showVolume));
 				}
 			}
 		}

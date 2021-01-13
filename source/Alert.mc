@@ -132,15 +132,10 @@ class Alert extends Ui.View {
 		dc.fillRectangle(bX, bY, bWidth, bHeight);
 		
 		dc.setColor(fgcolor, bgcolor);
-		for (var i = 0; i < 2; ++i) {
-			bX += i;
-			bY += i;
-			bWidth -= (2 * i);
-			bHeight -= (2 * i);
-			
-			dc.drawRectangle(bX, bY, bWidth, bHeight);
-		}
-		
+
+		dc.setPenWidth(1);
+		dc.drawRectangle(bX, bY, bWidth, bHeight);
+
 		var tX = dc.getWidth() / 2;
 		var tY = bY + bHeight / 2;
 		
