@@ -16,14 +16,14 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		mCaller.setDefaultParameter("player=mplayer&id=" + music);
 		mMusicView = musicView;
 		mUpdateCallback = mMusicView.method(:onUpdateMusic);
-		updatePlaying();	
+		updatePlaying();
 	}
-	
+
 	function updatePlaying()
 	{
 		mCaller.call("/mediaserver/list", "", mUpdateCallback);
 	}
-	
+
 	function showVolume(code, data)
 	{
 		if (data instanceof Dictionary)
@@ -49,17 +49,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 			}
 		}
 	}
-	
-	function volDown(code, data)
-	{
-		changeVolume(code, data, -mVolumeDelta);
-	}
-	
-	function volUp(code, data)
-	{
-		changeVolume(code, data, mVolumeDelta);
-	}
-	
+
 	function onTap (event)
 	{
 		var width = CircleButtonView.Width;
@@ -67,7 +57,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		var coords = event.getCoordinates();
 		if (coords[1] < height * 0.4)
 		{
-			updatePlaying();			
+			updatePlaying();
 		} else if (coords[1] < height * 0.7)
 		{
 			if (coords[0] < width / 3)
@@ -83,14 +73,14 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		} else {
 			if (coords[0] < width / 2)
 			{
-				mCaller.call("/mediaserver/list", "", method(:volDown));
+				mCaller.call("/mediaserver/delta_volume", "delta=" + (-mVolumeDelta), method(:showVolume));
 			} else
 			{
-				mCaller.call("/mediaserver/list", "", method(:volUp));
+				mCaller.call("/mediaserver/delta_volume", "delta=" + (+mVolumeDelta), method(:showVolume));
 			}
 		}
 	}
-	
+
 	function onKey(event)
 	{
 		if (event.getKey() == WatchUi.KEY_ENTER)
@@ -99,11 +89,11 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		}
 		if (event.getKey() == WatchUi.KEY_UP)
 		{
-			mCaller.call("/mediaserver/list", "", method(:volUp));
+			mCaller.call("/mediaserver/delta_volume", "delta=" + (+mVolumeDelta), method(:showVolume));
 		}
 		if (event.getKey() == WatchUi.KEY_DOWN)
 		{
-			mCaller.call("/mediaserver/list", "", method(:volDown));
+			mCaller.call("/mediaserver/delta_volume", "delta=" + (-mVolumeDelta), method(:showVolume));
 		}
 	}
 
