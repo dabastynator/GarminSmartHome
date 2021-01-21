@@ -29,14 +29,7 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		if (data instanceof Dictionary)
 		{
 			var volume = data["volume"];
-			var alert = new Alert({
-				:timeout => 1000,
-				:font => Graphics.FONT_MEDIUM,
-				:text => "Volume " + volume + "%",
-				:fgcolor => Graphics.COLOR_WHITE,
-				:bgcolor => Graphics.COLOR_BLACK
-				});
-			alert.pushView(WatchUi.SLIDE_UP);
+			mMusicView.setVolume(volume);
 		}
 	}
 
@@ -72,10 +65,10 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 		var width = CircleButtonView.Width;
 		var height = CircleButtonView.Height;
 		var coords = event.getCoordinates();
-		if (coords[1] < height / 3)
+		if (coords[1] < height * 0.4)
 		{
 			updatePlaying();			
-		} else if (coords[1] < 2 * height / 3)
+		} else if (coords[1] < height * 0.7)
 		{
 			if (coords[0] < width / 3)
 			{
@@ -95,6 +88,22 @@ class MusicDelegate extends WatchUi.BehaviorDelegate {
 			{
 				mCaller.call("/mediaserver/list", "", method(:volUp));
 			}
+		}
+	}
+	
+	function onKey(event)
+	{
+		if (event.getKey() == WatchUi.KEY_ENTER)
+		{
+			mCaller.call("/mediaserver/play_pause", "", mUpdateCallback);
+		}
+		if (event.getKey() == WatchUi.KEY_UP)
+		{
+			mCaller.call("/mediaserver/list", "", method(:volUp));
+		}
+		if (event.getKey() == WatchUi.KEY_DOWN)
+		{
+			mCaller.call("/mediaserver/list", "", method(:volDown));
 		}
 	}
 
