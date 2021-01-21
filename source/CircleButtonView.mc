@@ -12,6 +12,7 @@ class CircleButtonView extends WatchUi.View {
 	public var mArcAngle = 0;
 	private var mMargin = 0;
 	private var mCenterImage = null;
+	private var mShowAnimation = false;
 	public var mAppearAnimation = 0;
 
 	function initialize()
@@ -50,6 +51,11 @@ class CircleButtonView extends WatchUi.View {
 		}
 	}
 	
+	function doShowAnimation(animation)
+	{
+		mShowAnimation = animation;
+	}
+
 	// Add a resource like Rez.Drawables.id_monkey
 	function addButton(resource)
 	{
@@ -65,7 +71,12 @@ class CircleButtonView extends WatchUi.View {
 
 	function onShow()
 	{
-		WatchUi.animate(self, :mAppearAnimation, WatchUi.ANIM_TYPE_LINEAR, 0, 1, 0.6, null);
+		if (mShowAnimation)
+		{
+			WatchUi.animate(self, :mAppearAnimation, WatchUi.ANIM_TYPE_LINEAR, 0, 1, 0.6, null);
+		}else{
+			mAppearAnimation = 1;
+		}
 	}
 
 	function onUpdate(dc)

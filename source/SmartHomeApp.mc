@@ -117,6 +117,7 @@ class SmartHomeApp extends Application.AppBase {
 	function getInitialView()
 	{
 		var view = new CircleButtonView();
+		view.doShowAnimation(false);
 		view.setCenter(Rez.Drawables.SmartHome);
 		view.addButton(Rez.Drawables.script);
 		view.addButton(Rez.Drawables.headphone);
