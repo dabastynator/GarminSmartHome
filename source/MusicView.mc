@@ -47,6 +47,7 @@ class MarqueeText {
 	private var mDirty = true;
 	private var mWidth = 0;
 	private var mFont = Graphics.FONT_SMALL;
+	public var mBrightness = 1;
 
 
 	function initialize(left, right, y, color)
@@ -78,19 +79,25 @@ class MarqueeText {
 			var to = mRight - mWidth;
 			if (mStatus == 0)
 			{
-				to = from+0.1;
+				mX = from;
+				WatchUi.animate(self, :mBrightness, WatchUi.ANIM_TYPE_LINEAR, 0, 1, mStayDuration, method(:handleState));
+			}
+			if (mStatus == 1)
+			{
+				var duration = (from-to).abs() / mSpeed;
+				if (duration < mStayDuration)
+				{
+					duration = mStayDuration;
+				}
+				WatchUi.animate(self, :mX, WatchUi.ANIM_TYPE_LINEAR, from, to, duration, method(:handleState));
 			}
 			if (mStatus == 2)
 			{
-				from = to+0.1;
+				mX = to;
+				WatchUi.animate(self, :mBrightness, WatchUi.ANIM_TYPE_LINEAR, 1, 0, mStayDuration, method(:handleState));
 			}
-			var duration = (from-to).abs() / mSpeed;
-			if (duration < mStayDuration)
-			{
-				duration = mStayDuration;
-			}
-			WatchUi.animate(self, :mX, WatchUi.ANIM_TYPE_LINEAR, from, to, duration, method(:handleState));
 		} else {
+			mBrightness = 1;
 			mX= mLeft + (mRight - mLeft - mWidth) / 2;
 			WatchUi.requestUpdate();
 		}
@@ -104,7 +111,11 @@ class MarqueeText {
 			handleState();
 		}
 		var y = mY * dc.getHeight();
-		dc.setColor(mColor, mColorBg);
+		var a = 1 - mBrightness;
+		a = a*a*a;
+		var color = (255 * (1-a) * mColor).toNumber();
+		color = color | (color << 8) | (color << 16);
+		dc.setColor(color, mColorBg);
 		dc.drawText(mX, y, mFont, mText, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 	}
 
@@ -132,8 +143,8 @@ class MusicView extends WatchUi.View {
 
 		var marginTitle = 0.154 * CircleButtonView.Width;
 		var marginArtist = 0.038 * CircleButtonView.Width;
-		mMarqueeArtist = new MarqueeText(marginTitle, CircleButtonView.Width - marginTitle, 0.23, Graphics.COLOR_WHITE);
-		mMarqueeTitle = new MarqueeText(marginArtist, CircleButtonView.Width - marginArtist, 0.38, 0x888888);
+		mMarqueeArtist = new MarqueeText(marginTitle, CircleButtonView.Width - marginTitle, 0.23, 1);
+		mMarqueeTitle = new MarqueeText(marginArtist, CircleButtonView.Width - marginArtist, 0.38, 0.5);
 
 		mTimer = new Timer.Timer();
 	}
@@ -228,7 +239,10 @@ class MusicView extends WatchUi.View {
 			}
 			setVolume(current["volume"]);
 		}
-		WatchUi.cancelAllAnimations();
+		if (WatchUi has :cancelAllAnimations)
+		{
+			WatchUi.cancelAllAnimations();
+		}
 		mMarqueeArtist.setText(artist);
 		mMarqueeTitle.setText(title);
 		WatchUi.requestUpdate();
