@@ -5,4 +5,8 @@
     <bitmap id="playlist" filename="playlist.png" />
     <bitmap id="switches" filename="switches.png" />
     <bitmap id="user" filename="user.png" /> 
+    <bitmap id="play" filename="play.png" />
+    <bitmap id="pause" filename="pause.png" />
+    <bitmap id="stop" filename="stop.png" />
+    <bitmap id="next" filename="next.png" />
 </drawables>

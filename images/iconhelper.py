@@ -9,8 +9,7 @@ from subprocess import call
 from xml.dom import minidom
 
 mask_file = "icons.xml"
-prefix = "../images/"
-resolutions = []
+prefix = "../"
 mask_filter = ""
 buffering = True;
 
@@ -35,10 +34,11 @@ class Color:
 
 class Mask:
 
-    def __init__(self, name, colors):
+    def __init__(self, name, colors, resolutions):
         self.name = name
         self.layer = {}
         self.alpha_blur = {}
+        self.resolutions = resolutions
         self.hasMask = True
         self.isDirty = False
         self.generateCount = 0
@@ -53,7 +53,7 @@ class Mask:
         if self.modify_xml != None:
             mask_file_origin = self.modify_xml.getAttribute("mask")
             mask_file_origin = mask_file_origin + "/" + mask_file_origin
-        for res in resolutions:
+        for res in self.resolutions:
             mask_file = mask_file_origin + ".png"
             mask_file_r = mask_file_origin + res.postfix + ".png"
             if os.path.exists(mask_file_r):
@@ -88,7 +88,7 @@ class Mask:
         translate = ""
         if xmlNode.hasAttribute('translate'):
             translate = xmlNode.getAttribute("translate")
-        for res in resolutions:
+        for res in self.resolutions:
             # Manipulate mask
             if transform == "diagonal":
                 transformDiagonal(self.layer[res])
@@ -174,7 +174,7 @@ class Mask:
         print("Generate " + self.name + " mask for " + input_file + " save to " + output_file)
         sys.stdout.flush()
         self.applyModification(xmlNode, True)
-        for res in resolutions:
+        for res in self.resolutions:
             input_file_r = prefix + input_file + res.postfix + ".png"
             output_file_r = res.directory + output_file + res.postfix + ".png"
             img = None
@@ -297,7 +297,7 @@ def transformImage(xmlNode):
         scale = xmlNode.getAttribute("scale")
     print("Transform " + input_file + " save to " + output_file)
     sys.stdout.flush()
-    for res in resolutions:
+    for res in self.resolutions:
         input_file_r = prefix + input_file + res.postfix + ".png"
         output_file_r = res.directory + output_file + res.postfix + ".png"
         img = None
@@ -332,39 +332,37 @@ def transformImage(xmlNode):
         else:
             print("  does not exist: " + input_file_r)
 
-if __name__ == "__main__":
-    print("Python version: " + sys.version)
-    mask_xml = minidom.parse(mask_file)
+def handleIconSet(icon_set):
+    prefix = icon_set.getAttribute("directory");
+    buffering = icon_set.getAttribute("buffering").upper() == "TRUE";
+    
+    resolutions = []
     masks = {}
     colors = {}
-    if len(sys.argv) > 1:
-        mask_filter = sys.argv[1]
-        
-    prefix = mask_xml.documentElement.getAttribute("directory");
-    buffering = mask_xml.documentElement.getAttribute("buffering").upper() == "TRUE";
     
-    for res_entry in mask_xml.getElementsByTagName("Resolution"):
+    for res_entry in icon_set.getElementsByTagName("Resolution"):
         resolution = Resolution(int(res_entry.getAttribute("pixel")), res_entry.getAttribute("directory"), res_entry.getAttribute("postfix"))
         resolution.checkdir()
         resolutions.append(resolution);
+        print("Add resolution " + res_entry.getAttribute("pixel"))
     
-    for color_entry in mask_xml.getElementsByTagName("Color"):
+    for color_entry in icon_set.getElementsByTagName("Color"):
         color = Color(color_entry.getAttribute("name"), color_entry.getAttribute("value"))
         colors[color.name] = color
     
-    for alias_entry in mask_xml.getElementsByTagName("Alias"):
-        mask = Mask(alias_entry.getAttribute("name"), colors)
+    for alias_entry in icon_set.getElementsByTagName("Alias"):
+        mask = Mask(alias_entry.getAttribute("name"), colors, resolutions)
         mask.modify_xml = alias_entry
         mask.load()
         masks[mask.name] = mask
     
-    for transform_entry in mask_xml.getElementsByTagName("Transform"):
+    for transform_entry in icon_set.getElementsByTagName("Transform"):
         input_file = transform_entry.getAttribute("input")
         output_file = transform_entry.getAttribute("output")
         if input_file.startswith(mask_filter) or output_file.startswith(mask_filter):
             transformImage(transform_entry)
 
-    for mask_entry in mask_xml.getElementsByTagName("Icon"):
+    for mask_entry in icon_set.getElementsByTagName("Icon"):
         mask_type = "none"
         if mask_entry.hasAttribute("mask"):
             mask_type = mask_entry.getAttribute("mask")
@@ -374,7 +372,7 @@ if __name__ == "__main__":
             if mask_type in masks:
                 mask = masks[mask_type]
             else:
-                mask = Mask(mask_type, colors)
+                mask = Mask(mask_type, colors, resolutions)
                 mask.load()
                 masks[mask_type] = mask
             mask.generateComposite(mask_entry)
@@ -382,3 +380,14 @@ if __name__ == "__main__":
     for m in masks:
         count += masks[m].generateCount
     print("Finished drawing of " + str(count) + " icons.")
+
+if __name__ == "__main__":
+    print("Python version: " + sys.version)
+    mask_xml = minidom.parse(mask_file)
+    if len(sys.argv) > 1:
+        mask_filter = sys.argv[1]
+
+    for icon_set in mask_xml.getElementsByTagName("IconSet"):
+    	handleIconSet(icon_set)
+        
+
