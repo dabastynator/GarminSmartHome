@@ -8,6 +8,10 @@
             <iq:product id="fenix6xpro"/>
             <iq:product id="fr245"/>
             <iq:product id="fr245m"/>
+            <iq:product id="fr645"/>
+            <iq:product id="fr645m"/>
+            <iq:product id="fr745"/>
+            <iq:product id="fr935"/>
             <iq:product id="fr945"/>
             <iq:product id="legacyherofirstavenger"/>
             <iq:product id="venu"/>
@@ -18,6 +22,7 @@
             <iq:product id="vivoactive3m"/>
             <iq:product id="vivoactive3mlte"/>
             <iq:product id="vivoactive4"/>
+            <iq:product id="vivoactive4s"/>
         </iq:products>
         <iq:permissions>
             <iq:uses-permission id="Communications"/>
