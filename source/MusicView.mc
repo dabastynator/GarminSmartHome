@@ -1,6 +1,5 @@
 using Toybox.WatchUi;
 
-
 class Button {
 
 	private var mImage;
@@ -111,9 +110,12 @@ class MarqueeText {
 			handleState();
 		}
 		var y = mY * dc.getHeight();
-		var a = 1 - mBrightness;
-		a = a*a*a;
-		var color = (255 * (1-a) * mColor).toNumber();
+		var b = 5 * mBrightness;
+		if (b > 1)
+		{
+			b = 1;
+		}
+		var color = (255 * b * mColor).toNumber();
 		color = color | (color << 8) | (color << 16);
 		dc.setColor(color, mColorBg);
 		dc.drawText(mX, y, mFont, mText, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
