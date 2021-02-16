@@ -2,6 +2,7 @@
 	<IconSet directory="../" buffering="false">
 
 		<!-- Resolutions -->
+		<Resolution pixel="48" postfix="" directory="resources-round-218x218/drawables" />
 		<Resolution pixel="48" postfix="" directory="resources-round-240x240/drawables" />
 		<Resolution pixel="60" postfix="" directory="resources-round-260x260/drawables" />
 		<Resolution pixel="69" postfix="" directory="resources-round-280x280/drawables" />
@@ -19,6 +20,7 @@
 	<IconSet directory="../" buffering="false">
 
 		<!-- Resolutions -->
+		<Resolution pixel="32" postfix="" directory="resources-round-218x218/drawables" />
 		<Resolution pixel="32" postfix="" directory="resources-round-240x240/drawables" />
 		<Resolution pixel="36" postfix="" directory="resources-round-260x260/drawables" />
 		<Resolution pixel="43" postfix="" directory="resources-round-280x280/drawables" />
