@@ -15,4 +15,8 @@
     <string id="endpoint">End Point</string>
     <string id="token">Token</string>
     <string id="musicunit">Musik Unit</string>
+    
+    <string id="kodi_endpoint">Kodi Server</string>
+    <string id="kodi_user">Kodi Benutzer</string>
+    <string id="kodi_pwd">Kodi Passwort</string>
 </strings>

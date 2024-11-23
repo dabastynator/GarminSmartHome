@@ -12,7 +12,11 @@
     <string id="TriggerGoToBed">Go to bed</string>
     <string id="TriggerJazz">Jazz</string>
     
-    <string id="endpoint">End Point</string>
+    <string id="endpoint">Endpoint</string>
     <string id="token">Token</string>
-    <string id="musicunit">Music Unit</string>
+    <string id="musicunit">Musicunit</string>
+    
+    <string id="kodi_endpoint">Kodi server</string>
+    <string id="kodi_user">Kodi user</string>
+    <string id="kodi_pwd">Kodi password</string>
 </strings>

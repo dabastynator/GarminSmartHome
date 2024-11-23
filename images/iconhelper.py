@@ -193,8 +193,12 @@ class Mask:
                 # Manipulate input image
                 if transform_input == "horizontally":
                     transformHorizontally(img)
+                if transform_input == "vertically":
+                    transformVertically(img)
                 if transform_input == "diagonal":
                     transformDiagonal(img)
+                if transform_input == "diagonal2":
+                    transformDiagonal2(img)
                 if len(translate_input) > 0:
                     translateImg(img, translate_input)
                     if self.hasMask:
@@ -260,6 +264,14 @@ def transformDiagonal(img):
             tmp = pixels[x,y]
             pixels[x,y] = pixels[y,x]
             pixels[y,x] = tmp
+
+def transformDiagonal2(img):
+    pixels = img.load();
+    for x in range(img.size[0]):
+        for y in range(img.size[1]-x-1):
+            tmp = pixels[x,y]
+            pixels[x,y] = pixels[img.size[1]-y-1, img.size[0]-x-1,]
+            pixels[img.size[1]-y-1, img.size[0]-x-1,] = tmp
             
 def transformHorizontally(img):
     pixels = img.load();
