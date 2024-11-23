@@ -1,6 +1,84 @@
 using Toybox.WatchUi;
 using Toybox.Graphics;
+using Toybox.Attention;
 
+class CircleButtonDelegate extends WatchUi.BehaviorDelegate {
+
+	var mCallbacks = [];
+	var mCenterCallback = null;
+	var mView = null;
+
+	function initialize(view)
+	{
+		mView = view;
+		BehaviorDelegate.initialize();
+	}
+	
+	function addCallback(callback)
+	{
+		mCallbacks.add(callback);
+	}
+	
+	function onKey(event)
+	{
+		if (event.getKey() == WatchUi.KEY_ENTER)
+		{
+			if (mView.getIndex() < mCallbacks.size())
+			{
+				mCallbacks[mView.getIndex()].invoke();
+			}
+		}
+		if (event.getKey() == WatchUi.KEY_UP)
+		{
+			mView.setIndex((mView.getIndex() + 1) % mCallbacks.size());
+		}
+		if (event.getKey() == WatchUi.KEY_DOWN)
+		{
+			mView.setIndex((mView.getIndex() + mCallbacks.size() - 1) % mCallbacks.size());
+		}
+	}
+	
+	function onTap (event)
+	{
+		var coords = event.getCoordinates();
+		coords[0] = coords[0] - mView.Width / 2;
+		coords[1] = coords[1] - mView.Height / 2;
+		var maxDot = 0;
+		var index = -1;
+		var callback = null;
+		for (var i = 0; i < mCallbacks.size(); i++) {
+			var sin = Math.sin(2*i*Math.PI / mCallbacks.size());
+			var cos = -Math.cos(2*i*Math.PI / mCallbacks.size());
+			var dot = sin * coords[0] + cos * coords[1];
+			if (dot > maxDot)
+			{
+				maxDot = dot;
+				callback = mCallbacks[i];
+				index = i;
+			}
+		}
+		if (Math.sqrt(coords[0]*coords[0] + coords[1]*coords[1]) < mView.Width / 5)
+		{
+			callback = mCenterCallback;
+			index = -1;
+		}
+		if (callback != null)
+		{
+			if (index > -1)
+			{
+				mView.setIndex(index);
+			}
+			if (Attention has :vibrate) {
+				var vibeData = [
+					new Attention.VibeProfile(25, 100), // On for 100 ms
+				];
+				Attention.vibrate(vibeData);
+			}
+			callback.invoke();
+		}
+	}
+
+}
 
 class CircleButtonView extends WatchUi.View {
 
@@ -10,14 +88,17 @@ class CircleButtonView extends WatchUi.View {
 	private var mImages = [];
 	private var mIndex = 0;
 	public var mArcAngle = 0;
-	private var mMargin = 0;
+	private var mMargin = 0.15;
 	private var mCenterImage = null;
 	private var mShowAnimation = false;
 	public var mAppearAnimation = 0;
+	private var mDelegate = null;
+	private var mLineColor = 0x888888;
 
 	function initialize()
 	{
 		View.initialize();
+		mDelegate = new CircleButtonDelegate(self);
 	}
 	
 	function calcArcAngle(index)
@@ -51,22 +132,34 @@ class CircleButtonView extends WatchUi.View {
 		}
 	}
 	
+	function setLineColor(lineColor)
+	{
+		mLineColor = lineColor;
+	}
+	
 	function doShowAnimation(animation)
 	{
 		mShowAnimation = animation;
 	}
+	
+	function setMargin(margin)
+	{
+		mMargin = margin;
+	}
 
 	// Add a resource like Rez.Drawables.id_monkey
-	function addButton(resource)
+	function addButton(resource, callback)
 	{
-		var image = WatchUi.loadResource( resource );
+		var image = WatchUi.loadResource(resource);
 		mImages.add(image);
 		mArcAngle = calcArcAngle(mIndex);
+		mDelegate.addCallback(callback);
 	}
 	// Set a resource like Rez.Drawables.id_monkey
-	function setCenter(resource)
+	function setCenter(resource, callback)
 	{
 		mCenterImage = WatchUi.loadResource( resource );
+		mDelegate.mCenterCallback = callback;
 	}
 
 	function onShow()
@@ -85,7 +178,7 @@ class CircleButtonView extends WatchUi.View {
 		Height = dc.getHeight();
 		var centerX = dc.getWidth() / 2;
 		var centerY = dc.getHeight() / 2;
-		mMargin = 0.15 * Width;
+		var margin = mMargin * Width;
 	 
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
 		dc.clear();
@@ -95,7 +188,7 @@ class CircleButtonView extends WatchUi.View {
 			dc.drawBitmap( centerX - mCenterImage.getWidth() / 2, centerY - mCenterImage.getHeight() / 2, mCenterImage );
 		}
 		
-		dc.setColor(0x888888, Graphics.COLOR_BLACK);
+		dc.setColor(mLineColor, Graphics.COLOR_BLACK);
 		dc.setPenWidth(1);
 		var animationStep = smootherstep(mAppearAnimation);
 		var rAnimationStep = 1 - animationStep; 
@@ -105,8 +198,8 @@ class CircleButtonView extends WatchUi.View {
 			var sin = Math.sin(angle);
 			var cos = -Math.cos(angle);
 			var marginFactor = 2 * smootherstep(1.5 * (mAppearAnimation * 2 - 1.0 * i / mImages.size())) - 1;
-			var offX = sin * (centerX - mMargin * marginFactor);
-			var offY = cos * (centerY - mMargin * marginFactor);
+			var offX = sin * (centerX - margin * marginFactor);
+			var offY = cos * (centerY - margin * marginFactor);
 			dc.drawBitmap( centerX + offX - image.getWidth() / 2, centerY + offY - image.getHeight() / 2, image );
 			
 			angle = 2 * (i + 0.5) * Math.PI / mImages.size();
@@ -133,6 +226,10 @@ class CircleButtonView extends WatchUi.View {
 	
 	function setIndex(index)
 	{
+		if (mIndex == index)
+		{
+			return;
+		}
 		mIndex = index;
 		var newArcAngle = calcArcAngle(mIndex);
 		while (newArcAngle - mArcAngle > 180)
@@ -142,7 +239,7 @@ class CircleButtonView extends WatchUi.View {
 		while (newArcAngle - mArcAngle < -180)
 		{
 			newArcAngle = newArcAngle + 360;
-		} 
+		}
 		WatchUi.requestUpdate();
 		WatchUi.cancelAllAnimations();
 		WatchUi.animate(self, :mArcAngle, WatchUi.ANIM_TYPE_EASE_OUT, mArcAngle, newArcAngle, 0.3, null);
@@ -150,6 +247,11 @@ class CircleButtonView extends WatchUi.View {
 
 	function onHide()
 	{
+	}
+	
+	function getDelegate()
+	{
+		return mDelegate;
 	}
 
 }

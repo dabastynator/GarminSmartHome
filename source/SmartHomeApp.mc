@@ -4,9 +4,14 @@ using Toybox.Graphics;
 
 class SmartHomeApp extends Application.AppBase {
 
+	var mCaller;
+	var mKodiCaller;
+
 	function initialize()
 	{
 		AppBase.initialize();
+		mCaller = new WebCaller();
+		mKodiCaller = new KodiWebCaller();
 	}
 
 	// onStart() is called on application start up
@@ -17,11 +22,6 @@ class SmartHomeApp extends Application.AppBase {
 	// onStop() is called when your application is exiting
 	function onStop(state)
 	{
-	}
-	
-	function toScripts()	
-	{
-		WatchUi.pushView(new Rez.Menus.TriggerMenu(), new MenuDelegate(), WatchUi.SLIDE_UP);
 	}
 	
 	function toMusic()
@@ -57,8 +57,7 @@ class SmartHomeApp extends Application.AppBase {
 	
 	function toSwitches()
 	{
-		var caller = new WebCaller();
-		caller.call("/switch/list", "", method(:showSwitches));
+		mCaller.call("/switch/list", "", method(:showSwitches));
 	}
 	
 	function showPlaylists(code, data)
@@ -87,9 +86,8 @@ class SmartHomeApp extends Application.AppBase {
 	
 	function toPlaylists()
 	{
-		var caller = new WebCaller();
 		var music = Properties.getValue("musicunit");
-		caller.call("/mediaserver/playlists", "id=" + music, method(:showPlaylists));
+		mCaller.call("/mediaserver/playlists", "id=" + music, method(:showPlaylists));
 	}
 	
 	function showUser(code, data)
@@ -109,28 +107,87 @@ class SmartHomeApp extends Application.AppBase {
 	
 	function toUser()
 	{
-		var caller = new WebCaller();
-		caller.call("/user/current", "", method(:showUser));
+		mCaller.call("/user/current", "", method(:showUser));
+	}
+	
+	
+	function kodiEnter()
+	{
+		mKodiCaller.call("Input.Select", null);
+	}
+	
+	function kodiUp()
+	{
+		mKodiCaller.call("Input.Up", null);
+	}
+	
+	function kodiVolUp()
+	{
+		mKodiCaller.callParam("Application.SetVolume", {"volume" => "increment"}, null);
+	}
+	
+	function kodiRight()
+	{
+		mKodiCaller.call("Input.Right", null);
+	}
+	
+	function kodiDown()
+	{
+		mKodiCaller.call("Input.Down", null);
+	}
+	
+	function kodiBack()
+	{
+		mKodiCaller.call("Input.Back", null);
+	}
+	
+	function kodiLeft()
+	{
+		mKodiCaller.call("Input.Left", null);
+	}
+	
+	function kodiVolDown()
+	{
+		mKodiCaller.callParam("Application.SetVolume", {"volume" => "decrement"}, null);
+	}
+	
+	function kodiMusic()
+	{
+		var view = new MusicView();
+		WatchUi.pushView(view, new KodiMusicDelegate(view), WatchUi.SLIDE_UP);
+	}
+	
+	function toKodi()
+	{
+		var view = new CircleButtonView();
+		view.doShowAnimation(false);
+		view.setLineColor(0x12b2e7);
+		view.setMargin(0.16);
+		view.setCenter(Rez.Drawables.enter, method(:kodiEnter));
+		view.addButton(Rez.Drawables.up, method(:kodiUp));
+		view.addButton(Rez.Drawables.vol_up, method(:kodiVolUp));
+		view.addButton(Rez.Drawables.right, method(:kodiRight));
+		view.addButton(Rez.Drawables.player, method(:kodiMusic));
+		view.addButton(Rez.Drawables.down, method(:kodiDown));
+		view.addButton(Rez.Drawables.back, method(:kodiBack));
+		view.addButton(Rez.Drawables.left, method(:kodiLeft));
+		view.addButton(Rez.Drawables.vol_down, method(:kodiVolDown));
+		WatchUi.pushView(view, view.getDelegate(), WatchUi.SLIDE_UP);
 	}
 
 	// Return the initial view of your application here
 	function getInitialView()
 	{
+	//view.addButton(Rez.Drawables.user, method(:toUser));
 		var view = new CircleButtonView();
 		view.doShowAnimation(false);
-		view.setCenter(Rez.Drawables.SmartHome);
-		view.addButton(Rez.Drawables.script);
-		view.addButton(Rez.Drawables.headphone);
-		view.addButton(Rez.Drawables.switches);
-		view.addButton(Rez.Drawables.playlist);
-		view.addButton(Rez.Drawables.user);
-		var delegate = new CircleButtonDelegate(view);
-		delegate.addCallback(method(:toScripts));
-		delegate.addCallback(method(:toMusic));
-		delegate.addCallback(method(:toSwitches));
-		delegate.addCallback(method(:toPlaylists));
-		delegate.addCallback(method(:toUser));
-		return [ view, delegate ];
+		view.setCenter(Rez.Drawables.smarthome, null);
+		view.addButton(Rez.Drawables.user, method(:toUser));
+		view.addButton(Rez.Drawables.playlist, method(:toPlaylists));
+		view.addButton(Rez.Drawables.headphone, method(:toMusic));
+		view.addButton(Rez.Drawables.switches, method(:toSwitches));
+		view.addButton(Rez.Drawables.kodi, method(:toKodi));
+		return [ view, view.getDelegate() ];
 	}
 
 }

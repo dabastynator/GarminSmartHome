@@ -13,7 +13,7 @@ class WebCaller {
 		mUrl = Properties.getValue("endpoint");
 		mToken = Properties.getValue("token");
 		mDefaultParam = "?token=" + mToken;
-		System.println("Read properties:");
+		System.println("Read web call properties:");
 		System.println(" Url: " + mUrl);
 		System.println(" Token: " + mToken);
 	}
@@ -30,8 +30,8 @@ class WebCaller {
 		{
 			var alert = new Alert({
 				:timeout => 8000,
-				:font => Graphics.FONT_MEDIUM,
-				:text => "Error " + responseCode + "\nEnsure a running server and correct app settings.",
+				:font => Graphics.FONT_SMALL,
+				:text => mUrl + " returned " + responseCode + "\nEnsure a running server and correct app settings.",
 				:fgcolor => Graphics.COLOR_RED,
 				:bgcolor => Graphics.COLOR_BLACK
 				});
@@ -58,6 +58,11 @@ class WebCaller {
 		{
 			mCallback.invoke(responseCode, data);
 		}
+	}
+	
+	function isValid()
+	{
+		return mUrl.length() > 0;
 	}
 	
 	function setParameter(parameter)
