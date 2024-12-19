@@ -3,7 +3,7 @@
     <properties>
         <property id="version" type="string">1.1</property>
         <property id="endpoint" type="string">http://mypi.garmin.com:8061</property>
-        <property id="token" type="string">secure token</property>
+        <property id="token" type="string">w4kzd4HQ</property>
         <property id="musicunit" type="string">media.public</property>
         
         <property id="kodi_endpoint" type="string">http://mypi.garmin.com:8080</property>
