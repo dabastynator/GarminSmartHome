@@ -55,9 +55,38 @@ class SmartHomeApp extends Application.AppBase {
 		}
 	}
 	
+	function showScenes(code, data)
+	{
+		if ((data instanceof Array) and (data.size() > 0))
+		{
+			var menu = new WatchUi.Menu2({:title=>"Scenes"});
+			var delegate = new SceneDelegate();
+			for (var i = 0; i < data.size(); i++) {
+				var rScene = data[i];
+				if (rScene instanceof Dictionary)
+				{
+					menu.addItem(
+						new WatchUi.MenuItem(
+							rScene["name"],
+							"",
+							rScene["id"],
+							{}
+						)
+					);
+				}
+			}
+			WatchUi.pushView( menu, delegate, WatchUi.SLIDE_UP);
+		}
+	}
+	
 	function toSwitches()
 	{
 		mCaller.call("/switch/list", "", method(:showSwitches));
+	}
+	
+	function toScenes()
+	{
+		mCaller.call("/scene/list", "", method(:showScenes));
 	}
 	
 	function showPlaylists(code, data)
@@ -186,6 +215,7 @@ class SmartHomeApp extends Application.AppBase {
 		view.addButton(Rez.Drawables.playlist, method(:toPlaylists));
 		view.addButton(Rez.Drawables.headphone, method(:toMusic));
 		view.addButton(Rez.Drawables.switches, method(:toSwitches));
+		view.addButton(Rez.Drawables.paint_pallet, method(:toScenes));
 		view.addButton(Rez.Drawables.kodi, method(:toKodi));
 		return [ view, view.getDelegate() ];
 	}
